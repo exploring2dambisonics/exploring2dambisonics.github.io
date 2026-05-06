@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -470,7 +469,7 @@
 <body>
 
 <header>
-  <h1>CYLINDRICAL HARMONICS EXPLORER</h1>
+  <h1>CIRCULAR HARMONICS EXPLORER</h1>
   <div class="order-select">
     <label>order</label>
     <select id="order-select">
@@ -531,7 +530,7 @@
 <script>
 // ─────────────────────────────────────────────
 //  FORMULATION
-//  Cylindrical harmonics of order N (2D ambisonics):
+//  Circular harmonics of order N (2D ambisonics):
 //
 //    Y_0(φ)   = 1/√2                          (n=0, omnidirectional)
 //    Y_n^c(φ) = cos(n·φ)   for n = 1…N        (even component)
@@ -1152,7 +1151,7 @@ function initAudioCtx() {
     const panner    = audio.ctx.createStereoPanner();
     // φ=π/2 → top of polar plot → left ear  (pan = -1)
     // φ=3π/2 → bottom of polar plot → right ear (pan = +1)
-    panner.pan.value = Math.sin(phi);
+    panner.pan.value = -Math.sin(phi);
     gainNode.connect(panner);
     panner.connect(audio.masterGain);
     audio.speakers.push({ gainNode, phi });
@@ -1440,14 +1439,14 @@ registerSection('phase');
 registerOp('rotate +45°', (state, N) => {
   const d = Math.PI / 4;
   for (let n = 1; n <= N; n++) {
-    state.phase[n] = ((getPhase(n) + d) + Math.PI) % (2 * Math.PI) - Math.PI;
+    state.phase[n] = ((getPhase(n) + n * d) + Math.PI) % (2 * Math.PI) - Math.PI;
   }
 });
 
 registerOp('rotate −45°', (state, N) => {
   const d = -Math.PI / 4;
   for (let n = 1; n <= N; n++) {
-    state.phase[n] = ((getPhase(n) + d) + Math.PI) % (2 * Math.PI) - Math.PI;
+    state.phase[n] = ((getPhase(n) + n * d) + Math.PI) % (2 * Math.PI) - Math.PI;
   }
 });
 
